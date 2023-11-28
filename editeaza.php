@@ -7,8 +7,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $sql = "SELECT * FROM carti WHERE id = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    $carte=$stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$user) {
+    if (!$carte) {
         header("Location: index.php");
     }
 }
@@ -16,19 +18,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $nume = $_POST["nume"];
-    $prenume = $_POST[""];
-    $varsta = $_POST[""];
+    $autor = $_POST["autor"];
+    $pagini = $_POST["pagini"];
 
     // Actualizați datele utilizatorului
     $sql = "UPDATE carti SET nume = :nume, autor = :autor, pagini = :pagini WHERE id = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':nume', $nume);
+    $stmt->bindParam(':autor', $autor);
+    $stmt->bindParam(':pagini', $pagini);
+    $stmt->bindParam(':id',$id);
     $stmt->execute();
 
-    // header("Location: index.php");
+    header("Location: index.php");
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,13 +50,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="hidden" name="id" value="<?php echo $carte['id']; ?>">
             <div class="form-row">
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="nume" value="">
+                    <input type="text" class="form-control" name="nume" value="<?php echo $carte['nume']; ?>">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="prenume" value="">
+                    <input type="text" class="form-control" name="autor" value="<?php echo $carte['autor']; ?>">
                 </div>
                 <div class="mb-3">
-                    <input type="number" class="form-control" name="varsta" value="">
+                    <input type="number" class="form-control" name="pagini" value="<?php echo $carte['pagini']; ?>">
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success">Actualizare</button>
