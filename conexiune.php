@@ -1,4 +1,5 @@
 <?php
+    //error found : missing DataBase
     $server   = "localhost";
     $username = "root";
     $password = "";
