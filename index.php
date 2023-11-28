@@ -42,7 +42,9 @@
             <tbody>
                 <?php
                     include 'conexiune.php';
-                    $sql = "SELECT * FROM carti";
+                    $sql = "SELECT * FROM carti ORDER BY nume asc";
+                    $stmt = $conn->query($sql); 
+                    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 ?>
                 <?php foreach ($results as $row): ?>
                     <tr>
